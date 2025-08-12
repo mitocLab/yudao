@@ -1,5 +1,10 @@
 package cn.iocoder.yudao.module.yaochuantang.controller.admin.shop;
 
+import cn.iocoder.yudao.framework.common.enums.CommonStatusEnum;
+import cn.iocoder.yudao.module.yaochuantang.controller.admin.massageproject.vo.MassageProjectSimpleRespVO;
+import cn.iocoder.yudao.module.yaochuantang.convert.massageProject.MassageProjectConvert;
+import cn.iocoder.yudao.module.yaochuantang.convert.shop.ShopConvert;
+import cn.iocoder.yudao.module.yaochuantang.dal.dataobject.massageproject.MassageProjectDO;
 import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import org.springframework.validation.annotation.Validated;
@@ -101,6 +106,16 @@ public class ShopController {
         // 导出 Excel
         ExcelUtils.write(response, "瑶川堂门店.xls", "数据", ShopRespVO.class,
                         BeanUtils.toBean(list, ShopRespVO.class));
+    }
+
+
+    @GetMapping("/simple-list")
+    @Operation(summary = "获取门店简要信息列表")
+    @PreAuthorize("@ss.hasPermission('yaochuantang:shop:query')")
+    public CommonResult<List<ShopSimpleRespVO>> getSimpleShopList() {
+        List<ShopDO> list = shopService.getShopListByStatus(
+                CommonStatusEnum.ENABLE.getStatus());
+        return success(ShopConvert.INSTANCE.convertList1(list));
     }
 
 }

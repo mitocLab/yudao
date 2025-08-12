@@ -82,4 +82,9 @@ public class ShopServiceImpl implements ShopService {
         return shopMapper.selectPage(pageReqVO);
     }
 
+    @Override
+    public List<ShopDO> getShopListByStatus(Integer status) {
+        return shopMapper.selectByStatus(status);
+    }
+
 }

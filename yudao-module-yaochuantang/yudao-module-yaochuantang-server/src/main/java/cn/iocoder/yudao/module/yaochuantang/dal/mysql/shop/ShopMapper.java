@@ -5,6 +5,7 @@ import java.util.*;
 import cn.iocoder.yudao.framework.common.pojo.PageResult;
 import cn.iocoder.yudao.framework.mybatis.core.query.LambdaQueryWrapperX;
 import cn.iocoder.yudao.framework.mybatis.core.mapper.BaseMapperX;
+import cn.iocoder.yudao.module.yaochuantang.dal.dataobject.massageproject.MassageProjectDO;
 import cn.iocoder.yudao.module.yaochuantang.dal.dataobject.shop.ShopDO;
 import org.apache.ibatis.annotations.Mapper;
 import cn.iocoder.yudao.module.yaochuantang.controller.admin.shop.vo.*;
@@ -23,6 +24,10 @@ public interface ShopMapper extends BaseMapperX<ShopDO> {
                 .eqIfPresent(ShopDO::getStatus, reqVO.getStatus())
                 .betweenIfPresent(ShopDO::getCreateTime, reqVO.getCreateTime())
                 .orderByDesc(ShopDO::getId));
+    }
+
+    default List<ShopDO> selectByStatus(Integer status) {
+        return selectList(ShopDO::getStatus, status);
     }
 
 }

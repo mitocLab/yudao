@@ -59,4 +59,12 @@ public interface ShopService {
      */
     PageResult<ShopDO> getShopPage(ShopPageReqVO pageReqVO);
 
+    /**
+     * 获取门店简要信息列表
+     *
+     * @param status 门店状态
+     * @return 门店简要信息列表
+     */
+    List<ShopDO> getShopListByStatus(Integer status);
+
 }
