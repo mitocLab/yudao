@@ -67,4 +67,10 @@ public interface MassageProjectService {
      */
     List<MassageProjectDO> getMassageProjectListByStatus(Integer status);
 
+    /**
+     *
+     * @param projectIds
+     * @return id->name Mapping
+     */
+    Map<Long, String> getProjectNameMap(Set<Long> projectIds);
 }

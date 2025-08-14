@@ -59,4 +59,18 @@ public interface TherapistService {
      */
     PageResult<TherapistDO> getTherapistPage(TherapistPageReqVO pageReqVO);
 
+    /**
+     * 获取技师简要信息列表
+     *
+     * @param status 状态
+     * @return 简要信息列表
+     */
+     List<TherapistDO> getTherapistListByStatus(Integer status);
+
+    /**
+     *
+     * @param therapistIds
+     * @return id->name Mapping
+     */
+    Map<Long, String> getTherapistNameMap(Set<Long> therapistIds);
 }

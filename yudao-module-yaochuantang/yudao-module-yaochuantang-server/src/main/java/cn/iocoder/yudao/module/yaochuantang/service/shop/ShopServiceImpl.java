@@ -1,12 +1,15 @@
 package cn.iocoder.yudao.module.yaochuantang.service.shop;
 
 import cn.hutool.core.collection.CollUtil;
+import cn.iocoder.yudao.module.yaochuantang.dal.dataobject.massageproject.MassageProjectDO;
 import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
+import java.util.stream.Collectors;
+
 import cn.iocoder.yudao.module.yaochuantang.controller.admin.shop.vo.*;
 import cn.iocoder.yudao.module.yaochuantang.dal.dataobject.shop.ShopDO;
 import cn.iocoder.yudao.framework.common.pojo.PageResult;
@@ -85,6 +88,22 @@ public class ShopServiceImpl implements ShopService {
     @Override
     public List<ShopDO> getShopListByStatus(Integer status) {
         return shopMapper.selectByStatus(status);
+    }
+
+    @Override
+    public Map<Long, String> getShopNameMap(Set<Long> shopIds) {
+        if (shopIds.isEmpty()) {
+            return Collections.emptyMap();
+        }
+        // 查询项目列表
+        List<ShopDO> shops = shopMapper.selectNameListByIds(shopIds);
+        // 转为 ID → 名称的 Map
+        return shops.stream()
+                .collect(Collectors.toMap(
+                        ShopDO::getId,
+                        ShopDO::getName,
+                        (k1, k2) -> k1
+                ));
     }
 
 }

@@ -30,4 +30,11 @@ public interface ShopMapper extends BaseMapperX<ShopDO> {
         return selectList(ShopDO::getStatus, status);
     }
 
+    default List<ShopDO> selectNameListByIds(Set<Long> Ids) {
+        return  selectList(
+                new LambdaQueryWrapperX<ShopDO>()
+                        .in(ShopDO::getId, Ids)
+                        .select(ShopDO::getId, ShopDO::getName) // 只查必要字段
+        );
+    }
 }

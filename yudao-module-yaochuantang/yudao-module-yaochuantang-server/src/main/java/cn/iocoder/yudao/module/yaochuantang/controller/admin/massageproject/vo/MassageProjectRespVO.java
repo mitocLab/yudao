@@ -36,11 +36,15 @@ public class MassageProjectRespVO {
 
     @Schema(description = "项目状态", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
     @ExcelProperty(value = "项目状态", converter = DictConvert.class)
-    @DictFormat("common_status") // TODO 代码优化：建议设置到对应的 DictTypeConstants 枚举类中
+    @DictFormat("common_status")
     private Integer status;
 
     @Schema(description = "创建时间", requiredMode = Schema.RequiredMode.REQUIRED)
     @ExcelProperty("创建时间")
     private LocalDateTime createTime;
+
+    @Schema(description = "项目时长", requiredMode = Schema.RequiredMode.REQUIRED, example = "120")
+    @ExcelProperty(value = "项目时长")
+    private Integer duration;
 
 }

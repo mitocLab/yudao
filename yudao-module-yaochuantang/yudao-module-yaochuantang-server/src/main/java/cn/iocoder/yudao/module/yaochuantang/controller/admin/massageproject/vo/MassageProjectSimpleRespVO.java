@@ -25,4 +25,8 @@ public class MassageProjectSimpleRespVO {
     @Schema(description = "项目状态", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
     @ExcelProperty(value = "项目状态", converter = DictConvert.class)
     private Integer status;
+
+    @Schema(description = "项目时长", requiredMode = Schema.RequiredMode.REQUIRED, example = "1.5")
+    @ExcelProperty(value = "项目时长")
+    private Integer duration;
 }

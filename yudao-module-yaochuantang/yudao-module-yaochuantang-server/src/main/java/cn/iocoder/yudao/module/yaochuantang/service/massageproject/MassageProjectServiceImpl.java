@@ -1,23 +1,21 @@
 package cn.iocoder.yudao.module.yaochuantang.service.massageproject;
 
-import cn.hutool.core.collection.CollUtil;
 import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
+import java.util.stream.Collectors;
+
 import cn.iocoder.yudao.module.yaochuantang.controller.admin.massageproject.vo.*;
 import cn.iocoder.yudao.module.yaochuantang.dal.dataobject.massageproject.MassageProjectDO;
 import cn.iocoder.yudao.framework.common.pojo.PageResult;
-import cn.iocoder.yudao.framework.common.pojo.PageParam;
 import cn.iocoder.yudao.framework.common.util.object.BeanUtils;
 
 import cn.iocoder.yudao.module.yaochuantang.dal.mysql.massageproject.MassageProjectMapper;
 
 import static cn.iocoder.yudao.framework.common.exception.util.ServiceExceptionUtil.exception;
 import static cn.iocoder.yudao.framework.common.util.collection.CollectionUtils.convertList;
-import static cn.iocoder.yudao.framework.common.util.collection.CollectionUtils.diffList;
 import static cn.iocoder.yudao.module.yaochuantang.enums.ErrorCodeConstants.*;
 
 /**
@@ -87,4 +85,19 @@ public class MassageProjectServiceImpl implements MassageProjectService {
         return massageProjectMapper.selectListByStatus(status);
     }
 
+    @Override
+    public Map<Long, String> getProjectNameMap(Set<Long> projectIds) {
+        if (projectIds.isEmpty()) {
+            return Collections.emptyMap();
+        }
+        // 查询项目列表
+        List<MassageProjectDO> projects = massageProjectMapper.selectNameListByIds(projectIds);
+        // 转为 ID → 名称的 Map
+        return projects.stream()
+                .collect(Collectors.toMap(
+                        MassageProjectDO::getId,
+                        MassageProjectDO::getName,
+                        (k1, k2) -> k1
+                ));
+    }
 }

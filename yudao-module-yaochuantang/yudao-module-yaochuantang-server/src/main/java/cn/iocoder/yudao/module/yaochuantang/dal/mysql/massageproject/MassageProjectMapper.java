@@ -29,4 +29,12 @@ public interface MassageProjectMapper extends BaseMapperX<MassageProjectDO> {
         return selectList(MassageProjectDO::getStatus, status);
     }
 
+    default List<MassageProjectDO> selectNameListByIds(Set<Long> Ids) {
+        return  selectList(
+                new LambdaQueryWrapperX<MassageProjectDO>()
+                        .in(MassageProjectDO::getId, Ids)
+                        .select(MassageProjectDO::getId, MassageProjectDO::getName) // 只查必要字段
+        );
+    }
+
 }

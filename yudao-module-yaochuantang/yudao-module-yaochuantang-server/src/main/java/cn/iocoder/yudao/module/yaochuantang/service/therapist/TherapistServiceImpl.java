@@ -1,12 +1,15 @@
 package cn.iocoder.yudao.module.yaochuantang.service.therapist;
 
 import cn.hutool.core.collection.CollUtil;
+import cn.iocoder.yudao.module.yaochuantang.dal.dataobject.shop.ShopDO;
 import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
+import java.util.stream.Collectors;
+
 import cn.iocoder.yudao.module.yaochuantang.controller.admin.therapist.vo.*;
 import cn.iocoder.yudao.module.yaochuantang.dal.dataobject.therapist.TherapistDO;
 import cn.iocoder.yudao.framework.common.pojo.PageResult;
@@ -60,10 +63,10 @@ public class TherapistServiceImpl implements TherapistService {
     }
 
     @Override
-        public void deleteTherapistListByIds(List<Long> ids) {
+    public void deleteTherapistListByIds(List<Long> ids) {
         // 删除
         therapistMapper.deleteByIds(ids);
-        }
+    }
 
 
     private void validateTherapistExists(Long id) {
@@ -80,6 +83,27 @@ public class TherapistServiceImpl implements TherapistService {
     @Override
     public PageResult<TherapistDO> getTherapistPage(TherapistPageReqVO pageReqVO) {
         return therapistMapper.selectPage(pageReqVO);
+    }
+
+    @Override
+    public List<TherapistDO> getTherapistListByStatus(Integer status) {
+        return therapistMapper.selectByStatus(status);
+    }
+
+    @Override
+    public Map<Long, String> getTherapistNameMap(Set<Long> therapistIds) {
+        if (therapistIds.isEmpty()) {
+            return Collections.emptyMap();
+        }
+        // 查询项目列表
+        List<TherapistDO> therapists = therapistMapper.selectNameListByIds(therapistIds);
+        // 转为 ID → 名称的 Map
+        return therapists.stream()
+                .collect(Collectors.toMap(
+                        TherapistDO::getId,
+                        TherapistDO::getName,
+                        (k1, k2) -> k1
+                ));
     }
 
 }

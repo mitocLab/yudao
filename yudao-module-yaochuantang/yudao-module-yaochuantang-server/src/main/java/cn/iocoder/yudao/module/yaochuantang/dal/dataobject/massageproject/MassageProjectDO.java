@@ -49,6 +49,11 @@ public class MassageProjectDO extends BaseDO {
      * 枚举 {@link TODO common_status 对应的类}
      */
     private Integer status;
+    /**
+     * 项目时长
+     *
+     */
+    private Integer duration;
 
 
 }

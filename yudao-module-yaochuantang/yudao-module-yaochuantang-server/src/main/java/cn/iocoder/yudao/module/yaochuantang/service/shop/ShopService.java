@@ -67,4 +67,11 @@ public interface ShopService {
      */
     List<ShopDO> getShopListByStatus(Integer status);
 
+    /**
+     *
+     * @param shopIds
+     * @return id->name Mapping
+     */
+    Map<Long, String> getShopNameMap(Set<Long> shopIds);
+
 }

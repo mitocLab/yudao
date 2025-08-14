@@ -30,4 +30,8 @@ public class MassageProjectSaveReqVO {
     @NotNull(message = "项目状态不能为空")
     private Integer status;
 
+    @Schema(description = "项目时长", requiredMode = Schema.RequiredMode.REQUIRED, example = "1.5")
+    @NotNull(message = "项目时长不能为空")
+    private Integer duration;
+
 }

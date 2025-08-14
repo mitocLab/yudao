@@ -1,5 +1,10 @@
 package cn.iocoder.yudao.module.yaochuantang.controller.admin.therapist;
 
+import cn.iocoder.yudao.framework.common.enums.CommonStatusEnum;
+import cn.iocoder.yudao.module.yaochuantang.controller.admin.shop.vo.ShopSimpleRespVO;
+import cn.iocoder.yudao.module.yaochuantang.convert.shop.ShopConvert;
+import cn.iocoder.yudao.module.yaochuantang.convert.therapist.TherapistConvert;
+import cn.iocoder.yudao.module.yaochuantang.dal.dataobject.shop.ShopDO;
 import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import org.springframework.validation.annotation.Validated;
@@ -99,6 +104,15 @@ public class TherapistController {
         // 导出 Excel
         ExcelUtils.write(response, "瑶川堂技师.xls", "数据", TherapistRespVO.class,
                         BeanUtils.toBean(list, TherapistRespVO.class));
+    }
+
+    @GetMapping("/simple-list")
+    @Operation(summary = "获取技师信息列表")
+    @PreAuthorize("@ss.hasPermission('yaochuantang:therapist:query')")
+    public CommonResult<List<TherapistSimpleRespVO>> getSimpleTherapistList() {
+        List<TherapistDO> list = therapistService.getTherapistListByStatus(
+                CommonStatusEnum.ENABLE.getStatus());
+        return success(TherapistConvert.INSTANCE.convertList1(list));
     }
 
 }
