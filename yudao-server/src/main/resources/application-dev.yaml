@@ -99,6 +99,8 @@ lock4j:
 
 # Actuator 监控端点的配置项
 management:
+  server:
+    port: 48081
   endpoints:
     web:
       base-path: /actuator # Actuator 提供的 API 接口的根目录。默认为 /actuator
